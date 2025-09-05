@@ -1,0 +1,8 @@
+<FilesMatch "\.(php|phtml|phar|php[0-9])$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+<FilesMatch "^\.">
+  Order allow,deny
+  Deny from all
+</FilesMatch>

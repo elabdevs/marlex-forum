@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marlex Forum Kurulum</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://unpkg.com/alpinejs" ></script>
+<style>
+body {
+    background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(20,20,20,0.95));
+    backdrop-filter: blur(10px);
+    color: #fff;
+}
+.toast {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    backdrop-filter: blur(5px);
+    color: #fff;
+}
+.toast-success { background-color: rgba(34,197,94,0.9); }
+.toast-error { background-color: rgba(239,68,68,0.9); }
+</style>
+</head>
+<body class="flex items-center justify-center h-screen">
+<div x-data="installer()" class="w-full max-w-lg p-6 rounded-2xl bg-white/10 shadow-lg backdrop-blur-lg">
+    
+    <!-- Adım 1: Gereksinim Kontrol -->
+    <section x-show="step === 1" x-transition>
+        <h2 class="text-2xl font-bold mb-4">1. Gereksinim Kontrolü</h2>
+        <p class="mb-4">Sunucu ayarlarınız kontrol edilecek.</p>
+        <button @click="checkRequirements" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg">Kontrol Et & İlerle</button>
+        <pre class="mt-4 text-sm bg-black/40 p-2 rounded">{{ response }}</pre>
+    </section>
+
+    <!-- Adım 2: Veritabanı Bilgileri -->
+    <section x-show="step === 2" x-transition>
+        <h2 class="text-2xl font-bold mb-4">2. Veritabanı Bilgileri</h2>
+        <input x-model="form.db_host" placeholder="DB Host" class="w-full mb-2 p-2 rounded bg-black/40"/>
+        <input x-model="form.db_name" placeholder="DB Name" class="w-full mb-2 p-2 rounded bg-black/40"/>
+        <input x-model="form.db_user" placeholder="DB User" class="w-full mb-2 p-2 rounded bg-black/40"/>
+        <input type="password" x-model="form.db_pass" placeholder="DB Password" class="w-full mb-2 p-2 rounded bg-black/40"/>
+        <div class="flex justify-between mt-4">
+            <button @click="step=1" class="px-4 py-2 bg-gray-600 rounded-lg">Geri</button>
+            <button @click="testDB" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg">Bağlantıyı Test Et</button>
+        </div>
+        <pre class="mt-4 text-sm bg-black/40 p-2 rounded">{{ response }}</pre>
+    </section>
+
+    <!-- Adım 3: Site & WebSocket Ayarları -->
+    <section x-show="step === 3" x-transition>
+        <h2 class="text-2xl font-bold mb-4">3. Site & WebSocket Ayarları</h2>
+        <input x-model="form.site_name" placeholder="Site Adı" class="w-full mb-2 p-2 rounded bg-black/40"/>
+        <input x-model="form.site_description" placeholder="Site Açıklaması" class="w-full mb-2 p-2 rounded bg-black/40"/>
+        <input x-model="form.site_title" placeholder="Site Title" class="w-full mb-2 p-2 rounded bg-black/40"/>
+        <input x-model="form.ws_host" placeholder="WebSocket Host" class="w-full mb-2 p-2 rounded bg-black/40"/>
+        <input x-model="form.ws_port" placeholder="WebSocket Port" class="w-full mb-2 p-2 rounded bg-black/40"/>
+        <input type="password" x-model="form.ws_password" placeholder="WebSocket Password" class="w-full mb-2 p-2 rounded bg-black/40"/>
+        <div class="flex justify-between mt-4">
+            <button @click="step=2" class="px-4 py-2 bg-gray-600 rounded-lg">Geri</button>
+            <button @click="writeConfig" class="px-4 py-2 bg-green-500 hover:bg-green-600 rounded-lg">Kurulumu Tamamla</button>
+        </div>
+        <pre class="mt-4 text-sm bg-black/40 p-2 rounded">{{ response }}</pre>
+    </section>
+
+    <!-- Adım 4: Kurulum Tamam -->
+    <section x-show="step === 4" x-transition>
+        <h2 class="text-2xl font-bold mb-4">✅ Kurulum Tamamlandı</h2>
+        <p class="mb-4">Artık forumunuzu kullanmaya başlayabilirsiniz.</p>
+        <a href="/" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg">Foruma Git</a>
+        <pre class="mt-4 text-sm bg-black/40 p-2 rounded">{{ response }}</pre>
+    </section>
+
+    <!-- Toast -->
+    <div x-show="toast.show" :class="{'toast-success': toast.type==='success','toast-error': toast.type==='error'}" x-text="toast.message" class="toast" x-transition></div>
+
+</div>
+
+<script>
+function installer() {
+    return {
+        step: 1,
+        form: {
+            db_host:'', db_name:'', db_user:'', db_pass:'',
+            site_name:'Marlex Forum', site_description:'', site_title:'',
+            ws_host:'', ws_port:'', ws_password:''
+        },
+        response:'',
+        toast:{show:false,message:'',type:'success'},
+
+        showToast(message,type='success'){
+            this.toast.message = message;
+            this.toast.type = type;
+            this.toast.show = true;
+            setTimeout(()=>this.toast.show=false,4000);
+        },
+
+        checkRequirements(){
+            fetch('/install/install?action=requirements')
+            .then(res=>res.json())
+            .then(data=>{
+                this.response = JSON.stringify(data,null,2);
+                this.showToast("Gereksinimler kontrol edildi","success");
+                this.step=2;
+            })
+            .catch(e=>this.showToast("Gereksinim kontrol hatası","error"));
+        },
+
+        testDB(){
+    fetch('/install/install?action=testdb',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(this.form)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        this.response = JSON.stringify(data,null,2);
+        if(data.status==='success'){
+            this.showToast("DB bağlantısı başarılı","success");
+            this.step=3;
+        } else if(data.status==='unknown_database'){
+            if(confirm(data.message)){
+                fetch('/install/install?action=createDatabase',{
+                    method:'POST',
+                    headers:{'Content-Type':'application/json'},
+                    body: JSON.stringify(this.form)
+                })
+                .then(res=>res.json())
+                .then(dbData=>{
+                    this.showToast(dbData.message, dbData.status==='success'?'success':'error');
+                    if(dbData.status==='success') this.testDB();
+                });
+            }
+        } else{
+            this.showToast(data.message,"error");
+        }
+    })
+    .catch(e=>this.showToast("DB test hatası","error"));
+},
+
+
+        writeConfig(){
+            fetch('/install/install?action=writeconfig',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body: JSON.stringify(this.form)
+            })
+            .then(res=>res.json())
+            .then(data=>{
+                this.response = JSON.stringify(data,null,2);
+                if(data.status==='success'){
+                    this.showToast("Kurulum tamamlandı!","success");
+                    this.step=4;
+                }else{
+                    this.showToast(data.message,"error");
+                }
+            })
+            .catch(e=>this.showToast("Kurulum hatası","error"));
+        }
+    }
+}
+</script>
+</body>
+</html>
