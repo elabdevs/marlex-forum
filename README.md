@@ -1,74 +1,138 @@
-**Marlex Forum**
+# 🚀 Marlex Forum Altyapısı – Yeni Nesil Topluluk Yönetim Sistemi
 
+Kendi topluluğunu kurmak, binlerce kullanıcıyı tek çatı altında toplamak ve onları modern bir forum deneyimiyle buluşturmak artık çok kolay.  
+**Marlex Forum Altyapısı**, performansı, güvenliği ve esnekliğiyle öne çıkan, tamamen yeni nesil bir forum yazılımıdır.
 
+---
 
-Marlex Forum, modern web teknolojileriyle geliştirilmiş, modüler, scalable ve güvenli bir forum platformudur. Proje, PHP 8+, Node.js, WebSocket ve MySQL/MariaDB tabanlı backend yapısıyla birlikte, real-time iletişim ve gelişmiş kullanıcı yönetimi sunar.
+## 🔧 Teknik Güç – Modern Backend & Frontend
 
-**Öne Çıkan Özellikler**
+- **Backend:** PHP tabanlı, stabil ve güvenilir  
+- **Frontend:** HTML, CSS ve JavaScript ile modern, responsive tasarım  
+- **Gerçek Zamanlı İletişim:** Node.js WebSocket sunucusu ile anlık mesajlaşma, sesli ve görüntülü sohbet  
+- **Veritabanı Seçenekleri:** MySQL (varsayılan), PostgreSQL ve NoSQL alternatif desteği  
+- **Cache & Performans:** Redis cache entegrasyonu + lazy load sistemi (yakında)
 
-Modüler Backend: PSR-4 standartları ve SOLID prensipleriyle yapılandırılmış PHP modülleri.
+---
 
-Gerçek Zamanlı İletişim: WebSocket server ile hızlı ve güvenli chat desteği.
+## 🎨 Tasarım & Kullanıcı Deneyimi
 
-Gelişmiş Kullanıcı Yönetimi: Rollere dayalı erişim kontrolü, kullanıcı yetkilendirme ve aktivitelerin loglanması.
+- Responsive tasarım: Mobil, tablet ve masaüstünde kusursuz görünüm  
+- **PWA Desteği:** Tek tıkla Progressive Web App olarak kullanılabilir  
+- **Tema Esnekliği:** Özel CSS desteği (gelecekte gelişmiş tema sistemi)
 
-Güvenlik Önlemleri: PDO kullanımı, SQL Injection önleme, Argon2 şifreleme ve çoklu hash mekanizmaları.
+---
 
-Responsive UI: Modern, minimalist ve glassmorphism etkili tasarım.
+## 🔍 SEO ve Görünürlük
 
-Çevresel Değişken Yönetimi: Dotenv ile yapılandırma ve güvenlik.
+- Her sayfanın meta title & description ayarlanabilir  
+- Otomatik sitemap güncellemeleri  
+- SEO dostu URL yapısı
 
-Extensible Architecture: Yeni modüller ve API endpoint'leri kolayca eklenebilir.
+---
 
-**Teknoloji Yığını**
+## 🔐 Güvenlik – Baştan Sona Koruma
 
-Backend: PHP 8+, Node.js (WebSocket)
+- **WAF Koruması** (Admin panelinden yönetilebilir)  
+- **2FA (İki Aşamalı Doğrulama)**  
+- **SQL Injection Koruması:** Parametreli sorgular + input filtreleme  
+- **CSRF Token + reCaptcha** (Login/Register ekranları)  
+- **Rate Limit:** İstek limiti admin panelinden ayarlanabilir  
+- **Dosya Güvenliği:** Yüklenen görseller yapay zeka ile taranır, sadece resim formatı kabul edilir  
 
-Database: MySQL / MariaDB
+---
 
-Frontend: HTML5, CSS3, JavaScript (ES6+)
+## 👤 Kullanıcı Sistemi
 
-Real-time: WebSocketServer (Node.js)
+- Profil fotoğrafı & banner yükleme  
+- Biyografi özelleştirme  
+- **Rozet & Puan Sistemi:** Etkileşimle puan kazan, rozet al  
+- Özel etkinlikler puanlara göre düzenlenebilir  
+- Tek tıkla yetki verme (Admin paneline girmeden)
 
-Dependency Management: Composer (PHP), npm (Node.js)
+---
 
-Environment Management: Dotenv
+## 💬 İletişim & Sosyalleşme
 
-Testing: PHPUnit, Cypress (önerilen)
+- **Public Chat:** Anasayfada anlık sohbet  
+- **Özel Mesajlaşma (DM):** WebSocket tabanlı  
+- **Sesli & Görüntülü Sohbet** (opsiyonel)  
+- **Bildirim Sistemi:** Mesaj, yanıt, takip edilen konu → anında bildirim  
+- **Kullanıcı Ayarları:** Hangi bildirimlerin alınacağı seçilebilir  
 
-**Mimarisi**
+---
 
-API Katmanı: RESTful endpoint'ler ile frontend iletişimi.
+## ⚙️ Yönetim Paneli
 
-Business Logic Katmanı: Servisler, Validator ve Helper sınıfları.
+- **Anlık Sunucu Bilgileri:** RAM, CPU, trafik, network status  
+- **Kullanıcı Yönetimi:** Düzenleme, askıya alma, manuel ekleme  
+- **Raporlama:** Anlık rapor oluşturma & düzenleme  
+- **Özel Rozetler:** Kendi rozetlerini oluştur, dağıt  
+- **Veri Dışa Aktarma:** Excel, CSV, PDF  
+- **Tam Loglama:** Tüm işlemler kayıt altında  
+- **Analitik:** Hangi sayfada kaç kişi, sayfa geçişleri (Anonymous ID ile takip)
 
-Data Access Layer (DAL): PDO tabanlı güvenli veri tabanı işlemleri.
+---
 
-WebSocket Katmanı: Gerçek zamanlı mesajlaşma ve event yönetimi.
+## 📚 Forum Özellikleri
 
-Frontend Katmanı: Responsive UI, modern JS ve CSS yapı.
+- Kategori sistemi (alt kategori yakında)  
+- Konu açma, cevap, alıntı, beğeni, etiketleme  
+- Konu takibi + bildirimler  
+- Online kullanıcı göstergesi  
+- AFK sistemi (5 dk hareketsizlik → offline)
 
-Tüm katmanlar birbirinden bağımsızdır ve SOLID prensiplerine göre ayrıştırılmıştır.
+---
 
-**Katkıda Bulunma**
+## 🧩 Modüller & Entegrasyonlar
 
-Bu proje tamamen kapalı kaynaklıdır ve dışarıdan katkıya izin verilmez.
+- Admin panelinde özel JS ekleme (sayfa bazlı)  
+- Dosya yükleme (AI taramalı güvenlik, sadece read izni)  
+- Embed desteği (YouTube, Twitter, vs.)  
+- Google Ads entegrasyonu  
+- **Premium Üyelik:** Sanal POS & Masterpass entegrasyonu  
 
-Tüm haklar saklıdır.
+---
 
-Ticari kullanım, çoğaltma, dağıtım veya başka herhangi bir şekilde yetkisiz kullanım durumunda yasal süreçler devreye girecektir.
+## ⚡ Performans
 
-**Lisans**
+- Yüksek kullanıcı sayısında stabil çalışma  
+- Düşük kaynak tüketimi  
+- Trafik yoğunluğunda yüksek hız  
 
-© 2025 Marlex Forum. All Rights Reserved.
+---
 
- **Notlar**
+## 🔄 Kurulum Kolaylığı
 
-PHP versiyonu 8.1+ önerilir.
+1. Dosyaları web dizinine yükle  
+2. `.env` bilgilerini doldur  
+3. Kurulum sihirbazı otomatik olarak DB & Admin hesabı oluşturur  
 
-Node.js versiyonu 18+ önerilir.
+Dakikalar içinde çalışmaya hazır 🚀
 
-WebSocket için ilgili portların firewall'da açık olduğundan emin olun.
+---
 
-Proje sadece **yetkili kişiler** tarafından kullanılabilir.
+## 📜 Lisanslama & Destek
 
+- Yıllık lisans sistemi  
+- Aylık ücretsiz destek  
+- Düzenli güncellemeler  
+
+---
+
+## 🎯 Neden Marlex?
+
+Çünkü sadece bir forum değil, **modern bir topluluk ekosistemi** sunuyor:  
+
+- Daha güvenli  
+- Daha hızlı  
+- Daha esnek  
+- Daha sosyal  
+
+---
+
+## 📩 İletişim
+
+info@elabdevs.com
+
+---
